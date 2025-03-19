@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e2f;
+            color: #fff;
+            text-align: center;
+            background-image: url('images/background-index.webp');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #FFD700;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+            border-radius: 5px;
+        }
+        .container {
+            background: rgba(40, 40, 60, 0.95);
+            color: #FFD700;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 450px;
+            margin: 40px auto;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .profile-header {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.2em;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        .profile-info:last-child {
+            border-bottom: none;
+        }
+        .profile-info i {
+            font-size: 1.5em;
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        .profile-info span {
+            font-weight: bold;
+            color: #fff;
+        }
+        .action-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .action-buttons button {
+            background-color: #FFD700;
+            color: #222;
+            font-weight: bold;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .action-buttons button:hover {
+            background-color: #e6b800;
+        }
+        .warning-box {
+            display: none;
+            background-color: #ff4444;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .warning-box button {
+            background-color: white;
+            color: #ff4444;
+            font-weight: bold;
+            margin-top: 10px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .cancel-button {
+            background-color: gray !important;
+            color: white;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- FontAwesome für Icons -->
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="{{ url_for('welcome') }}">Home</a>
+        <a href="{{ url_for('minecraft') }}">Minecraft Server</a>
+        <a href="{{ url_for('gamedivers') }}">GameDivers</a>
+        <a href="{{ url_for('minigames') }}">Minigames</a>
+        <a href="{{ url_for('memecoin') }}">Memecoin</a>
+        <a href="{{ url_for('profile') }}">Profil</a>
+    </nav>
+
+    <div class="container">
+        <div class="profile-header">Dein Profil</div>
+
+        <!-- Benutzerinformationen mit Icons -->
+        <div class="profile-info">
+            <i class="fas fa-user"></i>
+            <span>Benutzername: </span> {{ user.username }}
+        </div>
+        <div class="profile-info">
+            <i class="fas fa-envelope"></i>
+            <span>E-Mail: </span> {{ user.email if user.email else 'Keine E-Mail hinterlegt' }}
+        </div>
+        <div class="profile-info">
+            <i class="fas fa-shield-alt"></i>
+            <span>Rolle: </span> {{ user.role }}
+        </div>
+
+        <div class="action-buttons">
+            <!-- Account löschen Button -->
+            <button onclick="showWarning()" style="background-color: red; color: white;">Account löschen</button>
+
+            <!-- Warnung + Bestätigung (versteckt) -->
+            <div id="deleteWarning" class="warning-box">
+                <p>⚠ Achtung: Diese Aktion kann nicht rückgängig gemacht werden!</p>
+                <form action="{{ url_for('delete_account') }}" method="POST">
+                    <button type="submit">Löschen bestätigen</button>
+                </form>
+                <button class="cancel-button" onclick="hideWarning()">Abbrechen</button>
+            </div>
+
+            <!-- Logout Button -->
+            <button onclick="logout()">Abmelden</button>
+        </div>
+    </div>
+
+    <script>
+        function showWarning() {
+            document.getElementById("deleteWarning").style.display = "block";
+        }
+
+        function hideWarning() {
+            document.getElementById("deleteWarning").style.display = "none";
+        }
+
+        function logout() {
+            fetch("{{ url_for('logout') }}")
+                .then(() => window.location.href = "{{ url_for('index') }}");
+        }
+    </script>
+
+    <!-- Fußzeile für Impressum -->
+    <footer>
+        <p>&copy; 2025 DönerHub.de/Gamedivers.de | <a href="{{ url_for('datenschutz') }}" style="color: #ccc;">Datenschutz</a> | <a href="{{ url_for('impressum') }}" style="color: #ccc;">Impressum</a></p>
+        <p>Disclaimer: Diese Seite ist rein für Hobby, Privat oder Satire-Zwecke. Ähnlichkeiten zu bereits existierenden Websites, Personen oder Projekten sind rein zufällig.</p>
+    </footer>
+
+</body>
+</html>
