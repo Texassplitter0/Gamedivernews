@@ -147,7 +147,7 @@ def favicon():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', role=session.get('role', 'guest'))
 
 
 # <--------------------------------------------Routes-für-HTML-Dateien-setzen------------------------------------------------------------>
