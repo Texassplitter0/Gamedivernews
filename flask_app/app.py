@@ -149,14 +149,6 @@ def favicon():
 def index():
     return render_template('index.html')
 
-@app.route('/helldivers')
-def helldivers():
-    return render_template('helldivers.html')
-
-@app.route('/editor')
-def editor():
-    return render_template('editor.html')
-
 
 # <--------------------------------------------Routes-für-HTML-Dateien-setzen------------------------------------------------------------>
 
@@ -242,12 +234,18 @@ def welcome():
     return redirect(url_for('index'))
 
 
-@app.route('/easteregg')
-def easteregg():
+@app.route('/helldivers')
+def helldivers():
     if session.get('logged_in'):
-        return render_template('easteregg.html', user=session['user'], role=session.get('role', 'user'))
+        return render_template('helldivers.html')
     return redirect(url_for('index'))
 
+
+@app.route('/editor')
+def editor():
+    if session.get('logged_in'):
+        return render_template('editor.html')
+    return redirect(url_for('index'))
 
 # <---------------------------------------Routes-für-Login/Logout-und-Registrierung--------------------------------------------------------->
 
