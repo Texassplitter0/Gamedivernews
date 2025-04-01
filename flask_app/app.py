@@ -23,7 +23,7 @@ import time
 
 
 def create_database():
-    retries = 5
+    retries = 15
     while retries > 0:
         try:
             conn = get_db_connection(use_root=True)
@@ -57,6 +57,43 @@ def create_database():
                     email = VALUES(email),
                     role = VALUES(role);
             """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS articles (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(255) NOT NULL,
+                    text TEXT NOT NULL,
+                    category VARCHAR(50),
+                    image LONGBLOB,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS article_images (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    article_id INT,
+                    image LONGBLOB,
+                    FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE
+                );
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS article_likes (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT,
+                    article_id INT,
+                    UNIQUE(user_id, article_id)
+                );
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS article_comments (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT NOT NULL,
+                    article_id INT NOT NULL,
+                    comment TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES users(id),
+                    FOREIGN KEY (article_id) REFERENCES articles(id)
+                );
+            """)
 
             conn.commit()
             cursor.close()
@@ -67,8 +104,8 @@ def create_database():
         except mysql.connector.Error as err:
             print(f"❌ Fehler bei der Datenbankerstellung: {err}")
             retries -= 1
-            print(f"🔄 Neuer Versuch in 5 Sekunden... ({5 - retries}/5)")
-            time.sleep(5)
+            print(f"🔄 Neuer Versuch in 15 Sekunden... ({15 - retries}/15)")
+            time.sleep(15)
 
     if retries == 0:
         print("❌ Konnte die Datenbank nach mehreren Versuchen nicht erstellen!")
