@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Artikel erstellen – Gamedivers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFD700;
+            --dark: #1c1c1c;
+            --medium: #333;
+            --light: #444;
+            --accent: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--accent);
+            padding: 40px 20px;
+        }
+
+        h1, h2 {
+            color: var(--primary);
+            text-align: center;
+        }
+
+        form {
+            background: var(--medium);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        #editor {
+            background: white;
+            color: black;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            margin-top: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e0c200;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #preview {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-box {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .article-box h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .article-box img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        #dropArea {
+            border: 2px dashed #aaa;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            background-color: #2a2a2a;
+            transition: border-color 0.3s ease;
+        }
+
+        #previewImage {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #previewImage img {
+            max-width: 120px;
+            border-radius: 8px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Neuen Artikel erstellen</h1>
+
+    <form id="articleForm">
+        <label for="title">Titel</label>
+        <input type="text" id="title" required>
+
+        <label>Bilder (mehrere erlaubt)</label>
+        <div id="dropArea">
+            📥 Ziehe Bilder hierher oder klicke zum Auswählen.
+            <input type="file" id="image" accept="image/*" multiple style="display: none;">
+            <div id="previewImage"></div>
+        </div>
+
+        <label for="category">Kategorie</label>
+        <select id="category" required>
+            <option value="">-- Wähle eine Kategorie --</option>
+            <option value="news">News</option>
+            <option value="update">Update</option>
+            <option value="review">Review</option>
+        </select>
+
+        <label for="text">Text</label>
+        <div id="editor" style="height: 200px;"></div>
+
+        <button type="submit">Artikel speichern</button>
+        <div class="message" id="formMessage"></div>
+    </form>
+
+    <h2>📰 Vorschau veröffentlichter Artikel</h2>
+    <div id="preview"></div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+        const quill = new Quill('#editor', { theme: 'snow' });
+        const form = document.getElementById("articleForm");
+        const message = document.getElementById("formMessage");
+        const preview = document.getElementById("preview");
+        const dropArea = document.getElementById("dropArea");
+        const imageInput = document.getElementById("image");
+        const previewImage = document.getElementById("previewImage");
+
+        let selectedImages = [];
+
+        dropArea.addEventListener("click", () => imageInput.click());
+
+        dropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = "#FFD700";
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.style.borderColor = "#aaa";
+        });
+
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = "#aaa";
+            handleImages(e.dataTransfer.files);
+        });
+
+        imageInput.addEventListener("change", () => {
+            handleImages(imageInput.files);
+        });
+
+        function handleImages(files) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            previewImage.innerHTML = "";
+            selectedImages = [];
+
+            Array.from(files).forEach(file => {
+                if (allowedTypes.includes(file.type)) {
+                    selectedImages.push(file);
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const img = document.createElement("img");
+                        img.src = reader.result;
+                        previewImage.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    const msg = document.createElement("p");
+                    msg.style.color = "red";
+                    msg.textContent = `❌ ${file.name} hat ein ungültiges Format.`;
+                    previewImage.appendChild(msg);
+                }
+            });
+        }
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById("title").value;
+            const text = quill.root.innerHTML;
+            const category = document.getElementById("category").value;
+
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("text", text);
+            formData.append("category", category);
+
+            selectedImages.forEach(image => {
+                formData.append("images", image);
+            });
+
+            fetch("/create_article", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    message.style.color = "lightgreen";
+                    message.textContent = "✅ Artikel wurde erfolgreich gespeichert!";
+                    form.reset();
+                    previewImage.innerHTML = "";
+                    selectedImages = [];
+                    quill.setContents([]);
+                    loadArticles();
+                } else {
+                    message.style.color = "orange";
+                    message.textContent = "⚠ Fehler: " + (data.message || "Unbekannter Fehler");
+                }
+            })
+            .catch(err => {
+                message.style.color = "red";
+                message.textContent = "❌ Netzwerkfehler.";
+            });
+        });
+
+        function loadArticles() {
+            fetch("/get_articles")
+                .then(res => res.json())
+                .then(articles => {
+                    preview.innerHTML = "";
+                    articles.forEach(article => {
+                        const box = document.createElement("div");
+                        box.classList.add("article-box");
+                        let imagesHtml = "";
+
+                        if (article.image_urls && article.image_urls.length > 0) {
+                            article.image_urls.forEach(url => {
+                                imagesHtml += `<img src="${url}" alt="Artikelbild">`;
+                            });
+                        }
+
+                        box.innerHTML = `
+                            <h2>${article.title}</h2>
+                            ${imagesHtml}
+                            <div>${article.text}</div>
+                            <p><strong>Kategorie:</strong> ${article.category}</p>
+                        `;
+                        preview.appendChild(box);
+                    });
+                });
+        }
+
+        loadArticles();
+    </script>
+</body>
+</html>
