@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - "10100:5000"
+      - "10110:5000"
     environment:
       FLASK_ENV: production
       MYSQL_HOST: db
@@ -36,7 +36,7 @@ services:
       MYSQL_USER: flask_user
       MYSQL_PASSWORD: flask_password
     ports:
-      - "3306:3306"
+      - "3307:3307"
     volumes:
       - mysql_data:/var/lib/mysql
       - mysql_data:/docker-entrypoint-initdb.d
