@@ -98,6 +98,19 @@
       margin-top: 10px;
     }
 
+    .category {
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .category > div {
+      background-color: var(--dark);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
     .ad-side-container {
       flex: 1;
       max-width: 300px;
@@ -156,189 +169,213 @@
       color: #333;
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav>
-  <a href="{{ url_for('welcome') }}">Home</a>
-  <a href="{{ url_for('helldivers') }}">Helldivers</a>
-  {% if role == "admin" or role == "editor" %}
-  <a href="{{ url_for('editor') }}">Erstellen</a>
-  {% endif %}
-  <a href="{{ url_for('profile') }}">Profil</a>
-</nav>
+  <nav>
+    <a href="{{ url_for('welcome') }}">Home</a>
+    <a href="{{ url_for('helldivers') }}">Helldivers</a>
+    {% if role == "admin" or role == "editor" %}
+    <a href="{{ url_for('editor') }}">Erstellen</a>
+    {% endif %}
+    <a href="{{ url_for('profile') }}">Profil</a>
+  </nav>
 
-<header>
-  <h1>Willkommen bei Gamedivers.de</h1>
-  <p>Das Portal für ihre Gamer News!</p>
-</header>
+  <header>
+    <h1>Willkommen bei Gamedivers.de</h1>
+    <p>Das Portal für ihre Gamer News!</p>
+  </header>
 
-<div class="main-content-wrapper">
-  <article class="sammlung">
-    <h1>Artikelübersicht</h1>
-    <input type="text" id="searchInput" placeholder="🔍 Artikel suchen..." style="width:100%; margin-bottom: 10px;">
-    <label for="categoryFilter" style="color: #333; font-weight: bold;">Filter nach Kategorie:</label>
-    <select id="categoryFilter">
-      <option value="all">Alle</option>
-      <option value="news">News</option>
-      <option value="update">Update</option>
-      <option value="review">Review</option>
-    </select>
-    <div id="articleList"></div>
-    <div id="paginationControls"></div>
-  </article>
+<!--------------------------Testanzeige--------------------------->
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-8657819783990586%22"
+    data-ad-slot="8657819783990586%22"
+    data-ad-format="auto">
+  </ins>
 
-  <div class="ad-side-container">
-    <div>
-      <h3>Kategorien</h3>
-      <ul style="list-style: none; padding: 0;">
-        <li><a href="#" onclick="filterArticles('all')">Alle</a></li>
-        <li><a href="#" onclick="filterArticles('news')">News</a></li>
-        <li><a href="#" onclick="filterArticles('update')">Updates</a></li>
-        <li><a href="#" onclick="filterArticles('review')">Reviews</a></li>
-      </ul>
+  <div class="main-content-wrapper">
+    <article class="sammlung">
+      <h1>Artikelübersicht</h1>
+      <input type="text" id="searchInput" placeholder="🔍 Artikel suchen..." style="width:100%; margin-bottom: 10px;">
+      <label for="categoryFilter" style="color: #333; font-weight: bold;">Filter nach Kategorie:</label>
+      <select id="categoryFilter">
+        <option value="all">Alle</option>
+        <option value="news">News</option>
+        <option value="update">Update</option>
+        <option value="review">Review</option>
+      </select>
+      <div id="articleList"></div>
+      <div id="paginationControls"></div>
+    </article>
+
+    <div class="category">
+      <div>
+        <h3>Kategorien</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="#" onclick="filterArticles('all')">Alle</a></li>
+          <li><a href="#" onclick="filterArticles('news')">News</a></li>
+          <li><a href="#" onclick="filterArticles('update')">Updates</a></li>
+          <li><a href="#" onclick="filterArticles('review')">Reviews</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ad-side-container">
+      <div>
+        <h3>Werbung</h3>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8657819783990586%22"
+             data-ad-slot="8657819783990586%22"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>      
     </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2025 DönerHub.de / Gamedivers.de | <a href="{{ url_for('datenschutz') }}">Datenschutz</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
-  <p>Disclaimer: Diese Seite ist rein für Hobby-, Privat- oder Satirezwecke.</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 DönerHub.de / Gamedivers.de | <a href="{{ url_for('datenschutz') }}">Datenschutz</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
+    <p>Disclaimer: Diese Seite ist rein für Hobby-, Privat- oder Satirezwecke.</p>
+  </footer>
 
-<script>
-const userRole = ("user");
-let allArticles = [];
-let filteredArticles = [];
-let currentPage = 1;
-const articlesPerPage = 5;
+  <script>
+  const userRole = ("user");
+  let allArticles = [];
+  let filteredArticles = [];
+  let currentPage = 1;
+  const articlesPerPage = 5;
 
-function displayArticles() {
-  const container = document.getElementById("articleList");
-  container.innerHTML = "";
-  const start = (currentPage - 1) * articlesPerPage;
-  const end = start + articlesPerPage;
-  const visible = filteredArticles.slice(start, end);
+  function displayArticles() {
+    const container = document.getElementById("articleList");
+    container.innerHTML = "";
+    const start = (currentPage - 1) * articlesPerPage;
+    const end = start + articlesPerPage;
+    const visible = filteredArticles.slice(start, end);
 
-  if (visible.length === 0) {
-    container.innerHTML = "<p>Keine Artikel gefunden.</p>";
-    return;
-  }
-
-  visible.forEach((article, index) => {
-    const box = document.createElement("article");
-    box.classList.add("test-sammlung");
-
-    let editButton = "";
-    if (userRole === "admin" || userRole === "editor") {
-      editButton = `<button onclick="showEditForm(${index})" style="margin-top:10px; background:#FFD700; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Bearbeiten</button>`;
+    if (visible.length === 0) {
+      container.innerHTML = "<p>Keine Artikel gefunden.</p>";
+      return;
     }
 
-    let images = "";
-    if (article.image_urls) {
-      article.image_urls.forEach(url => {
-        images += `<img src="${url}" alt="Bild">`;
-      });
-    }
+    visible.forEach((article, index) => {
+      const box = document.createElement("article");
+      box.classList.add("test-sammlung");
 
-    box.innerHTML = `
-      <h2>${article.title}</h2>
-      ${images}
-      <p>${article.text}</p>
-      <button onclick="toggleLike(this)" style="background:#FFD700; color:#222; padding:6px 12px; border:none; border-radius:6px; margin-top:10px;">❤️ Liken</button>
-      <div id="edit-form-${index}"></div>
-      ${editButton}
-    `;
-    container.appendChild(box);
-  });
-
-  updatePaginationControls();
-}
-
-function updatePaginationControls() {
-  const total = Math.ceil(filteredArticles.length / articlesPerPage);
-  const controls = document.getElementById("paginationControls");
-  controls.innerHTML = "";
-  for (let i = 1; i <= total; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
-    btn.onclick = () => { currentPage = i; displayArticles(); };
-    btn.style.background = i === currentPage ? "#FFD700" : "#666";
-    controls.appendChild(btn);
-  }
-}
-
-function toggleLike(btn) {
-  btn.classList.toggle("liked");
-  btn.textContent = btn.classList.contains("liked") ? "💖 Geliked" : "❤️ Liken";
-}
-
-function filterArticles(category) {
-  document.getElementById("categoryFilter").value = category;
-  applyFilters();
-}
-
-function applyFilters() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const cat = document.getElementById("categoryFilter").value;
-  filteredArticles = allArticles.filter(a => {
-    const inCategory = cat === "all" || a.category === cat;
-    const inText = a.title.toLowerCase().includes(search) || a.text.toLowerCase().includes(search);
-    return inCategory && inText;
-  });
-  currentPage = 1;
-  displayArticles();
-}
-
-document.getElementById("searchInput").addEventListener("input", applyFilters);
-document.getElementById("categoryFilter").addEventListener("change", applyFilters);
-
-function showEditForm(index) {
-  const container = document.getElementById(`edit-form-${index}`);
-  const article = filteredArticles[index];
-  container.innerHTML = `
-    <form onsubmit="saveArticle(event, ${index})" style="margin-top: 15px;">
-      <label>Titel:<br><input type="text" id="edit-title-${index}" value="${article.title}" style="width:100%; padding:6px;"></label><br>
-      <label>Text:<br><textarea id="edit-text-${index}" rows="4" style="width:100%; padding:6px;">${article.text}</textarea></label><br>
-      <button type="submit" style="margin-top:10px; background:#1c1c1c; color:#fff; padding:8px 12px; border:none; border-radius:6px;">Speichern</button>
-    </form>
-  `;
-}
-
-function saveArticle(e, index) {
-  e.preventDefault();
-  const id = filteredArticles[index].id;
-  const title = document.getElementById(`edit-title-${index}`).value;
-  const text = document.getElementById(`edit-text-${index}`).value;
-
-  fetch('/edit_article', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, title, text })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        filteredArticles[index].title = title;
-        filteredArticles[index].text = text;
-        displayArticles();
-      } else {
-        alert("Fehler beim Speichern.");
+      let editButton = "";
+      if (userRole === "admin" || userRole === "editor") {
+        editButton = `<button onclick="showEditForm(${index})" style="margin-top:10px; background:#FFD700; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">Bearbeiten</button>`;
       }
-    })
-    .catch(err => alert("Fehler: " + err));
-}
 
-function loadArticlesFromServer() {
-  fetch('/get_articles')
-    .then(res => res.json())
-    .then(data => {
-      allArticles = data;
-      applyFilters();
-    })
-    .catch(err => console.error("Ladefehler:", err));
-}
+      let images = "";
+      if (article.image_urls) {
+        article.image_urls.forEach(url => {
+          images += `<img src="${url}" alt="Bild">`;
+        });
+      }
 
-loadArticlesFromServer();
-</script>
+      box.innerHTML = `
+        <h2>${article.title}</h2>
+        ${images}
+        <p>${article.text}</p>
+        <button onclick="toggleLike(this)" style="background:#FFD700; color:#222; padding:6px 12px; border:none; border-radius:6px; margin-top:10px;">❤️ Liken</button>
+        <div id="edit-form-${index}"></div>
+        ${editButton}
+      `;
+      container.appendChild(box);
+    });
+
+    updatePaginationControls();
+  }
+
+  function updatePaginationControls() {
+    const total = Math.ceil(filteredArticles.length / articlesPerPage);
+    const controls = document.getElementById("paginationControls");
+    controls.innerHTML = "";
+    for (let i = 1; i <= total; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.onclick = () => { currentPage = i; displayArticles(); };
+      btn.style.background = i === currentPage ? "#FFD700" : "#666";
+      controls.appendChild(btn);
+    }
+  }
+
+  function toggleLike(btn) {
+    btn.classList.toggle("liked");
+    btn.textContent = btn.classList.contains("liked") ? "💖 Geliked" : "❤️ Liken";
+  }
+
+  function filterArticles(category) {
+    document.getElementById("categoryFilter").value = category;
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const cat = document.getElementById("categoryFilter").value;
+    filteredArticles = allArticles.filter(a => {
+      const inCategory = cat === "all" || a.category === cat;
+      const inText = a.title.toLowerCase().includes(search) || a.text.toLowerCase().includes(search);
+      return inCategory && inText;
+    });
+    currentPage = 1;
+    displayArticles();
+  }
+
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
+  document.getElementById("categoryFilter").addEventListener("change", applyFilters);
+
+  function showEditForm(index) {
+    const container = document.getElementById(`edit-form-${index}`);
+    const article = filteredArticles[index];
+    container.innerHTML = `
+      <form onsubmit="saveArticle(event, ${index})" style="margin-top: 15px;">
+        <label>Titel:<br><input type="text" id="edit-title-${index}" value="${article.title}" style="width:100%; padding:6px;"></label><br>
+        <label>Text:<br><textarea id="edit-text-${index}" rows="4" style="width:100%; padding:6px;">${article.text}</textarea></label><br>
+        <button type="submit" style="margin-top:10px; background:#1c1c1c; color:#fff; padding:8px 12px; border:none; border-radius:6px;">Speichern</button>
+      </form>
+    `;
+  }
+
+  function saveArticle(e, index) {
+    e.preventDefault();
+    const id = filteredArticles[index].id;
+    const title = document.getElementById(`edit-title-${index}`).value;
+    const text = document.getElementById(`edit-text-${index}`).value;
+
+    fetch('/edit_article', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, title, text })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          filteredArticles[index].title = title;
+          filteredArticles[index].text = text;
+          displayArticles();
+        } else {
+          alert("Fehler beim Speichern.");
+        }
+      })
+      .catch(err => alert("Fehler: " + err));
+  }
+
+  function loadArticlesFromServer() {
+    fetch('/get_articles')
+      .then(res => res.json())
+      .then(data => {
+        allArticles = data;
+        applyFilters();
+      })
+      .catch(err => console.error("Ladefehler:", err));
+  }
+
+  loadArticlesFromServer();
+  </script>
 </body>
 </html>
