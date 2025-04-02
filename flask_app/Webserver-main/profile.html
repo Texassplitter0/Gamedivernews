@@ -4,62 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #FFD700;
-            --dark: #1e1e2f;
-            --medium: rgba(40, 40, 60, 0.95);
-            --light: #fff;
             --danger: #ff4444;
-            --accent: #222;
+            --dark-bg: #121212;
+            --medium-bg: #1e1e2f;
+            --card-bg: #2c2c3f;
+            --text-light: #fff;
+            --accent-dark: #000;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark);
-            color: var(--light);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
             background-image: url('images/background-index.webp');
-            background-size: cover; 
-            background-position: center; 
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
         }
 
         nav {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 15px 20px;
+            gap: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
         }
 
         nav a {
             color: var(--primary);
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background 0.3s;
         }
 
         nav a:hover {
             background-color: rgba(255, 215, 0, 0.2);
-            border-radius: 6px;
-            padding: 8px 14px;
         }
 
         .container {
-            background: var(--medium);
-            color: var(--light);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            margin: 60px auto;
-            text-align: left;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: var(--card-bg);
+            padding: 3rem;
+            max-width: 600px;
+            margin: 4rem auto;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .profile-header {
+            font-size: 2rem;
+            text-align: center;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .avatar-upload {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
         .avatar {
@@ -67,46 +84,31 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            display: block;
-            margin: 0 auto 10px auto;
             border: 3px solid var(--primary);
         }
 
-        .avatar-upload {
-            text-align: center;
-            margin-bottom: 20px;
+        .avatar-upload label,
+        .avatar-upload button[type="submit"] {
+            background-color: var(--primary);
+            color: var(--accent-dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
         }
 
         .avatar-upload input[type="file"] {
             display: none;
         }
 
-        .avatar-upload label {
-            background-color: var(--primary);
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .profile-header {
-            text-align: center;
-            font-size: 2.2em;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-
         .profile-info {
             display: flex;
-            gap: 10px;
-            font-size: 1.1em;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .profile-info:last-child {
@@ -114,90 +116,67 @@
         }
 
         .profile-info i {
-            font-size: 1.4em;
             color: var(--primary);
-            width: 30px;
+            min-width: 30px;
+            font-size: 1.25rem;
         }
 
         .profile-info span {
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary);
-            min-width: 120px;
-        }
-
-        .profile-info p {
-            margin: 0;
-            color: var(--light);
+            width: 120px;
         }
 
         .action-buttons {
-            margin-top: 30px;
+            margin-top: 2rem;
             text-align: center;
         }
 
         .action-buttons button {
             background-color: var(--primary);
-            color: var(--accent);
-            font-weight: bold;
+            color: var(--accent-dark);
+            font-weight: 700;
             border: none;
-            padding: 14px 20px;
+            padding: 0.75rem 1.5rem;
             border-radius: 10px;
             cursor: pointer;
+            margin-top: 1rem;
             width: 100%;
-            font-size: 1rem;
-            margin-top: 12px;
-            transition: background-color 0.3s ease;
         }
 
-        .action-buttons button:hover {
-            background-color: #e6b800;
-        }
-
-        .action-buttons button.danger {
+        .action-buttons .danger {
             background-color: var(--danger);
-            color: var(--light);
-        }
-
-        .action-buttons button.danger:hover {
-            background-color: #cc0000;
+            color: #fff;
         }
 
         .warning-box {
-            display: none;
             background-color: var(--danger);
             color: white;
-            padding: 20px;
+            padding: 1rem;
             border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
-            font-size: 1.1em;
+            margin-top: 1rem;
+            display: none;
         }
 
         .warning-box button {
-            background-color: white;
-            color: var(--danger);
-            font-weight: bold;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             border: none;
-            padding: 10px 20px;
-            margin-top: 12px;
-            border-radius: 6px;
             cursor: pointer;
         }
 
         .warning-box .cancel-button {
-            background-color: #555;
-            color: white;
-            margin-left: 10px;
+            background-color: #444;
+            color: #fff;
         }
 
         footer {
-            background-color: #000000;
+            background-color: #000;
             color: white;
             text-align: center;
-            padding: 1em 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            padding: 1rem;
+            margin-top: 4rem;
         }
 
         footer a {
@@ -205,32 +184,33 @@
             text-decoration: underline;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                margin: 30px 20px;
-                padding: 20px;
-            }
-            .profile-info {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
         .loader {
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255,255,255,0.2);
             border-top: 3px solid var(--primary);
             border-radius: 50%;
             width: 24px;
             height: 24px;
             animation: spin 0.8s linear infinite;
-            display: inline-block;
+            display: none;
             vertical-align: middle;
             margin-left: 10px;
-            display: none;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+                margin: 2rem;
+            }
+
+            .profile-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
