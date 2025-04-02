@@ -142,7 +142,7 @@ from flask import send_from_directory
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory('flask_app/Webserver-main/static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory('flask_app/Webserver-main', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/')
@@ -201,7 +201,7 @@ def profile():
         conn.close()
 
         if user:
-            return render_template('profile.html', user=user)
+            return render_template('profile.html', user=session['user'], role=session.get('role', 'user'))
     
     return redirect(url_for('index'))
 
