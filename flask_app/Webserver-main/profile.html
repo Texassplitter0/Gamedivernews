@@ -62,6 +62,16 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 20px auto;
+            border: 3px solid var(--primary);
+        }
+
         .profile-header {
             text-align: center;
             font-size: 2.2em;
@@ -72,11 +82,11 @@
 
         .profile-info {
             display: flex;
-            align-items: center;
             gap: 10px;
             font-size: 1.1em;
             padding: 12px 0;
             border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            flex-wrap: wrap;
         }
 
         .profile-info:last-child {
@@ -86,10 +96,17 @@
         .profile-info i {
             font-size: 1.4em;
             color: var(--primary);
+            width: 30px;
         }
 
         .profile-info span {
             font-weight: bold;
+            color: var(--primary);
+            min-width: 120px;
+        }
+
+        .profile-info p {
+            margin: 0;
             color: var(--light);
         }
 
@@ -158,14 +175,25 @@
             color: white;
             text-align: center;
             padding: 1em 0;
-            position: fixed; /* Fixiert den Footer am unteren Bildschirmrand */
+            position: fixed;
             bottom: 0;
-            width: 100%; /* Lässt den Footer die gesamte Breite einnehmen */
+            width: 100%;
         }
 
         footer a {
             color: #ccc;
             text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 30px 20px;
+                padding: 20px;
+            }
+            .profile-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
@@ -182,17 +210,22 @@
     <div class="container">
         <div class="profile-header">Dein Profil</div>
 
+        <img src="{{ user.avatar_url or url_for('static', filename='default-avatar.png') }}" alt="Avatar" class="avatar">
+
         <div class="profile-info">
             <i class="fas fa-user"></i>
-            <span>Benutzername:</span> {{ user.username }}
+            <span>Benutzername:</span>
+            <p>{{ user.username }}</p>
         </div>
         <div class="profile-info">
             <i class="fas fa-envelope"></i>
-            <span>E-Mail:</span> {{ user.email if user.email else 'Keine E-Mail hinterlegt' }}
+            <span>E-Mail:</span>
+            <p>{{ user.email if user.email else 'Keine E-Mail hinterlegt' }}</p>
         </div>
         <div class="profile-info">
             <i class="fas fa-shield-alt"></i>
-            <span>Rolle:</span> {{ user.role }}
+            <span>Rolle:</span>
+            <p>{{ user.role }}</p>
         </div>
 
         <div class="action-buttons">
