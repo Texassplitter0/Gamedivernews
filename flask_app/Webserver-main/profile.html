@@ -130,14 +130,13 @@
 
     <!-- Navigation Bar -->
     <nav>
-        <a href="{{ url_for('welcome') }}">Home</a>
-        <a href="{{ url_for('gamedivers') }}">GameDivers</a>
-        <a href="{{ url_for('helldivers')}}">Helldivers</a>
-        {% if role == "admin" && "editor" %}
-            <a href="{{ url_for('editor') }}">Erstellen</a>
-        {% endif %}
-        <a href="{{ url_for('profile') }}">Profil</a>
-    </nav>
+    <a href="{{ url_for('welcome') }}">Home</a>
+    <a href="{{ url_for('helldivers') }}">Helldivers</a>
+    {% if role == "admin" or role == "editor" %}
+    <a href="{{ url_for('editor') }}">Erstellen</a>
+    {% endif %}
+    <a href="{{ url_for('profile') }}">Profil</a>
+  </nav>
 
     <div class="container">
         <div class="profile-header">Dein Profil</div>
