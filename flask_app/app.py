@@ -592,14 +592,16 @@ def get_articles():
         articles = cursor.fetchall()
 
         for article in articles:
-            cursor.execute("SELECT image FROM article_images WHERE article_id = %s", (article['id'],))
-            images = cursor.fetchall()
+            # neuen cursor ohne dictionary=True, weil LONGBLOB sonst Probleme macht
+            img_cursor = conn.cursor()
+            img_cursor.execute("SELECT image FROM article_images WHERE article_id = %s", (article['id'],))
+            images = img_cursor.fetchall()
             image_urls = []
-            for (image_blob,) in images:  # Tupel unpacken
+            for (image_blob,) in images:
                 base64_image = base64.b64encode(image_blob).decode('utf-8')
                 image_urls.append(f"data:image/jpeg;base64,{base64_image}")
             article['image_urls'] = image_urls
-
+            img_cursor.close()
 
         cursor.close()
         conn.close()
