@@ -511,6 +511,40 @@ def upload_avatar():
     return redirect(url_for('profile'))
 
 
+@app.route('/delete_avatar', methods=['POST'])
+def delete_avatar():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    # Avatar-Dateipfad aus DB holen
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT avatar_path FROM users WHERE id = %s", (user_id,))
+    user = cursor.fetchone()
+
+    if user and user['avatar_path']:
+        # Lokalen Pfad berechnen
+        avatar_path = user['avatar_path']
+        local_path = os.path.join('static', avatar_path.replace('/static/', ''))
+        
+        try:
+            if os.path.exists(local_path):
+                os.remove(local_path)
+                print(f"🗑️ Avatar gelöscht: {local_path}")
+        except Exception as e:
+            print(f"⚠️ Fehler beim Löschen des Avatars: {e}")
+
+    # DB-Eintrag leeren
+    cursor.execute("UPDATE users SET avatar_path = NULL WHERE id = %s", (user_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for('profile'))
+
+
 # <------------------------------------Routes-für-Artikel-funktionen---------------------------------------------->
 
 
