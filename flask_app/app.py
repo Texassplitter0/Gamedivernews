@@ -595,10 +595,11 @@ def get_articles():
             cursor.execute("SELECT image FROM article_images WHERE article_id = %s", (article['id'],))
             images = cursor.fetchall()
             image_urls = []
-            for img in images:
-                base64_image = base64.b64encode(img['image']).decode('utf-8')
+            for (image_blob,) in images:  # Tupel unpacken
+                base64_image = base64.b64encode(image_blob).decode('utf-8')
                 image_urls.append(f"data:image/jpeg;base64,{base64_image}")
             article['image_urls'] = image_urls
+
 
         cursor.close()
         conn.close()
