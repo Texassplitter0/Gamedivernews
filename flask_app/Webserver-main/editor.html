@@ -14,6 +14,31 @@
             --accent: #fff;
         }
 
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background-color: var(--dark);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+        }
+
+            nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--medium);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }       
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--dark);
@@ -130,6 +155,16 @@
     </style>
 </head>
 <body>
+
+    <nav>
+        <a href="{{ url_for('welcome') }}">Home</a>
+        <a href="{{ url_for('helldivers') }}">Helldivers</a>
+        {% if role == "admin" or role == "editor" %}
+        <a href="{{ url_for('editor') }}">Erstellen</a>
+        {% endif %}
+        <a href="{{ url_for('profile') }}">Profil</a>
+      </nav>
+
     <h1>Neuen Artikel erstellen</h1>
 
     <form id="articleForm">
