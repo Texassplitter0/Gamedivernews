@@ -136,6 +136,28 @@ def initialize_database():
 
 from flask import send_from_directory
 
+def migrate_add_avatar_path_column():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Prüfen, ob avatar_path-Spalte schon existiert
+        cursor.execute("SHOW COLUMNS FROM users LIKE 'avatar_path';")
+        column_exists = cursor.fetchone()
+
+        if not column_exists:
+            cursor.execute("ALTER TABLE users ADD COLUMN avatar_path VARCHAR(255);")
+            conn.commit()
+            print("✅ Spalte 'avatar_path' erfolgreich hinzugefügt.")
+        else:
+            print("ℹ️ Spalte 'avatar_path' existiert bereits.")
+
+        cursor.close()
+        conn.close()
+
+    except Exception as e:
+        print(f"❌ Fehler bei Migration: {e}")
+
 
 # <-------------------------------------------------------APP.ROUTEs--------------------------------------------------------------------->
 
@@ -191,19 +213,18 @@ def impressum():
 def profile():
     if session.get('logged_in'):
         username = session['user']
-
-        # Benutzerdaten aus der Datenbank abrufen
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT id, username, email, role FROM users WHERE username = %s', (username,))
+        cursor.execute('SELECT id, username, email, role, avatar_path FROM users WHERE username = %s', (username,))
         user = cursor.fetchone()
         cursor.close()
         conn.close()
 
         if user:
-            return render_template('profile.html', user=session['user'], role=session.get('role', 'user'))
-    
+            return render_template('profile.html', user=user, role=user['role'])
+
     return redirect(url_for('index'))
+
 
 
 @app.route('/registration')
@@ -453,6 +474,43 @@ def edit_user(user_id):
     return redirect(url_for('index'))
 
 
+@app.route('/upload_avatar', methods=['POST'])
+def upload_avatar():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    file = request.files.get('avatar')
+
+    if not file or file.filename == '':
+        return redirect(url_for('profile'))
+
+    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    ext = file.filename.rsplit('.', 1)[-1].lower()
+
+    if ext not in allowed_extensions:
+        return redirect(url_for('profile'))
+
+    filename = f"user_{user_id}.{ext}"
+    upload_folder = os.path.join('static', 'avatars')
+    os.makedirs(upload_folder, exist_ok=True)
+
+    filepath = os.path.join(upload_folder, filename)
+    file.save(filepath)
+
+    # Avatar-Pfad in der DB speichern
+    avatar_url = f"/static/avatars/{filename}"
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET avatar_path = %s WHERE id = %s", (avatar_url, user_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for('profile'))
+
+
 # <------------------------------------Routes-für-Artikel-funktionen---------------------------------------------->
 
 
@@ -674,4 +732,5 @@ def delete_comment(comment_id):
 if __name__ == '__main__':
     create_database()
     initialize_database()
+    migrate_add_avatar_path_column()  # <-- das hier fehlt noch
     app.run(host='0.0.0.0', port=5000, debug=True)
