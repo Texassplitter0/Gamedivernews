@@ -5,170 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
     <style>
+        :root {
+            --primary: #FFD700;
+            --dark: #1e1e2f;
+            --medium: rgba(40, 40, 60, 0.95);
+            --light: #fff;
+            --danger: #ff4444;
+            --accent: #222;
+        }
+
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #1e1e2f;
-            color: #fff;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
             background-image: url('images/background-index.webp');
             background-size: cover; 
             background-position: center; 
             background-repeat: no-repeat;
         }
+
         nav {
             display: flex;
             justify-content: center;
+            gap: 20px;
             background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px 0;
+            padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
+
         nav a {
-            color: #FFD700;
+            color: var(--primary);
             text-decoration: none;
-            padding: 10px 20px;
             font-weight: bold;
-            display: inline-block;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
         }
+
         nav a:hover {
             background-color: rgba(255, 215, 0, 0.2);
-            border-radius: 5px;
+            border-radius: 6px;
+            padding: 8px 14px;
         }
+
         .container {
-            background: rgba(40, 40, 60, 0.95);
-            color: #FFD700;
-            border-radius: 15px;
+            background: var(--medium);
+            color: var(--light);
+            border-radius: 20px;
             padding: 40px;
-            max-width: 450px;
-            margin: 40px auto;
+            max-width: 500px;
+            margin: 60px auto;
             text-align: left;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
+
         .profile-header {
             text-align: center;
-            font-size: 2em;
+            font-size: 2.2em;
             font-weight: bold;
-            color: #FFD700;
-            margin-bottom: 20px;
+            color: var(--primary);
+            margin-bottom: 30px;
         }
+
         .profile-info {
             display: flex;
             align-items: center;
-            margin: 15px 0;
-            font-size: 1.2em;
-            padding: 10px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            gap: 10px;
+            font-size: 1.1em;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
         }
+
         .profile-info:last-child {
             border-bottom: none;
         }
+
         .profile-info i {
-            font-size: 1.5em;
-            margin-right: 10px;
-            color: #FFD700;
+            font-size: 1.4em;
+            color: var(--primary);
         }
+
         .profile-info span {
             font-weight: bold;
-            color: #fff;
+            color: var(--light);
         }
+
         .action-buttons {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
         }
+
         .action-buttons button {
-            background-color: #FFD700;
-            color: #222;
+            background-color: var(--primary);
+            color: var(--accent);
             font-weight: bold;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px 20px;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
-            font-size: 1em;
-            margin-top: 10px;
+            font-size: 1rem;
+            margin-top: 12px;
+            transition: background-color 0.3s ease;
         }
+
         .action-buttons button:hover {
             background-color: #e6b800;
         }
+
+        .action-buttons button.danger {
+            background-color: var(--danger);
+            color: var(--light);
+        }
+
+        .action-buttons button.danger:hover {
+            background-color: #cc0000;
+        }
+
         .warning-box {
             display: none;
-            background-color: #ff4444;
+            background-color: var(--danger);
             color: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-top: 15px;
             text-align: center;
             font-size: 1.1em;
         }
+
         .warning-box button {
             background-color: white;
-            color: #ff4444;
+            color: var(--danger);
             font-weight: bold;
-            margin-top: 10px;
-            border-radius: 5px;
-            padding: 10px;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 12px;
+            border-radius: 6px;
+            cursor: pointer;
         }
-        .cancel-button {
-            background-color: gray !important;
+
+        .warning-box .cancel-button {
+            background-color: #555;
             color: white;
+            margin-left: 10px;
         }
+
         footer {
             background-color: rgba(0, 0, 0, 0.8);
             color: white;
             text-align: center;
-            padding: 1em 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            padding: 1.5rem 1rem;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #ccc;
+            text-decoration: underline;
         }
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- FontAwesome für Icons -->
 </head>
 <body>
-
-    <!-- Navigation Bar -->
     <nav>
-    <a href="{{ url_for('welcome') }}">Home</a>
-    <a href="{{ url_for('helldivers') }}">Helldivers</a>
-    {% if role == "admin" or role == "editor" %}
-    <a href="{{ url_for('editor') }}">Erstellen</a>
-    {% endif %}
-    <a href="{{ url_for('profile') }}">Profil</a>
-  </nav>
+        <a href="{{ url_for('welcome') }}">Home</a>
+        <a href="{{ url_for('helldivers') }}">Helldivers</a>
+        {% if role == "admin" or role == "editor" %}
+        <a href="{{ url_for('editor') }}">Erstellen</a>
+        {% endif %}
+        <a href="{{ url_for('profile') }}">Profil</a>
+    </nav>
 
     <div class="container">
         <div class="profile-header">Dein Profil</div>
 
-        <!-- Benutzerinformationen mit Icons -->
         <div class="profile-info">
             <i class="fas fa-user"></i>
-            <span>Benutzername: </span> {{ user.username }}
+            <span>Benutzername:</span> {{ user.username }}
         </div>
         <div class="profile-info">
             <i class="fas fa-envelope"></i>
-            <span>E-Mail: </span> {{ user.email if user.email else 'Keine E-Mail hinterlegt' }}
+            <span>E-Mail:</span> {{ user.email if user.email else 'Keine E-Mail hinterlegt' }}
         </div>
         <div class="profile-info">
             <i class="fas fa-shield-alt"></i>
-            <span>Rolle: </span> {{ user.role }}
+            <span>Rolle:</span> {{ user.role }}
         </div>
 
         <div class="action-buttons">
-            <!-- Account löschen Button -->
-            <button onclick="showWarning()" style="background-color: red; color: white;">Account löschen</button>
+            <button class="danger" onclick="showWarning()">Account löschen</button>
 
-            <!-- Warnung + Bestätigung (versteckt) -->
             <div id="deleteWarning" class="warning-box">
                 <p>⚠ Achtung: Diese Aktion kann nicht rückgängig gemacht werden!</p>
                 <form action="{{ url_for('delete_account') }}" method="POST">
                     <button type="submit">Löschen bestätigen</button>
+                    <button type="button" class="cancel-button" onclick="hideWarning()">Abbrechen</button>
                 </form>
-                <button class="cancel-button" onclick="hideWarning()">Abbrechen</button>
             </div>
 
-            <!-- Logout Button -->
             <button onclick="logout()">Abmelden</button>
         </div>
     </div>
@@ -188,11 +224,9 @@
         }
     </script>
 
-    <!-- Fußzeile für Impressum -->
     <footer>
-        <p>&copy; 2025 DönerHub.de/Gamedivers.de | <a href="{{ url_for('datenschutz') }}" style="color: #ccc;">Datenschutz</a> | <a href="{{ url_for('impressum') }}" style="color: #ccc;">Impressum</a></p>
-        <p>Disclaimer: Diese Seite ist rein für Hobby, Privat oder Satire-Zwecke. Ähnlichkeiten zu bereits existierenden Websites, Personen oder Projekten sind rein zufällig.</p>
+        <p>&copy; 2025 DönerHub.de / Gamedivers.de | <a href="{{ url_for('datenschutz') }}">Datenschutz</a> | <a href="{{ url_for('impressum') }}">Impressum</a></p>
+        <p>Disclaimer: Diese Seite ist rein für Hobby-, Privat- oder Satirezwecke. Ähnlichkeiten zu bereits existierenden Websites, Personen oder Projekten sind rein zufällig.</p>
     </footer>
-
 </body>
 </html>
