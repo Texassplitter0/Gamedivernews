@@ -222,7 +222,9 @@
         {% if role == "admin" or role == "editor" %}
         <a href="{{ url_for('editor') }}">Erstellen</a>
         {% endif %}
-        <a href="{{ url_for('profile') }}">Profil</a>
+        {% if role == "admin" %}
+            <a href="{{ url_for('adminpanel') }}">Admin-Panel</a>
+        {% endif %}
     </nav>
 
     <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
