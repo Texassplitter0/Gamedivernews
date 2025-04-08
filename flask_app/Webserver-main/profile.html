@@ -36,26 +36,26 @@
         nav {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            background-color: rgba(0, 0, 0, 0.85);
-            padding: 1rem;
+            gap: 20px;
+            background-color: var(--dark);
+            padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
         nav a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
         nav a:hover {
-            background-color: rgba(255, 215, 0, 0.2);
+            background-color: var(--medium);
+            padding: 8px 16px;
+            border-radius: 8px;
         }
 
         .container {
