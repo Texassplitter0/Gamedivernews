@@ -1,166 +1,166 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutzerklärung</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <style>
-        :root {
-            --primary: #FFD700;
-            --dark: #1c1c1c;
-            --light: #f4f4f4;
-            --medium: #444;
-            --accent: #fff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Datenschutzerklärung</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <style>
+    :root {
+      --primary: #FFD700;
+      --dark: #1c1c1c;
+      --medium: #333;
+      --light: #444;
+      --accent: #fff;
+    }
 
-        * { box-sizing: border-box; }
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1, h2 {
-            color: #444;
-        }
-        a {
-            color: #0066cc;
-        }
-    </style>
-</head>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            background-image: url('images/background-minecraft.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #000000;
-            padding: 10px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        nav a {
-            color: #FFD700;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        nav a:hover {
-            background-color: #444;
-            border-radius: 5px;
-        }
-        header {
-            background-color: #FFD700;
-            padding: 20px;
-            margin: 0;
-        }
-        main {
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 2em auto;
-            padding: 1em;
-            background: #000000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-        h1 {
-            color: #000000
-        }
-        h2 {
-            color: #fff;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        p {
-            color: #fff
-        }
-        li{
-            color: #fff
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            background-color: #000000;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-    </style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: var(--accent);
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: var(--dark);
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: var(--medium);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    header {
+      background-color: var(--primary);
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--dark);
+    }
+
+    main {
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 900px;
+      background-color: var(--medium);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: var(--dark);
+    }
+
+    h2 {
+        color: var(--primary);
+    }
+
+    p, li {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    footer {
+      background-color: var(--dark);
+      color: #ccc;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="{{ url_for('welcome') }}">Home</a>
-        <a href="{{ url_for('gamedivers') }}">GameDivers</a>
-        <a href="{{ url_for('helldivers')}}">Helldivers</a>
-        {% if role == "admin" && "editor" %}
-            <a href="{{ url_for('editor') }}">Erstellen</a>
-        {% endif %}
-        <a href="{{ url_for('profile') }}">Profil</a>
-    </nav>
+  <nav>
+    <a href="{{ url_for('welcome') }}">Home</a>
+    <a href="{{ url_for('gamedivers') }}">GameDivers</a>
+    <a href="{{ url_for('helldivers') }}">Helldivers</a>
+    {% if role == "admin" or role == "editor" %}
+    <a href="{{ url_for('editor') }}">Erstellen</a>
+    {% endif %}
+    <a href="{{ url_for('profile') }}">Profil</a>
+  </nav>
 
-    <!-- Header -->
-    <header>
-        <h1>Datenschutzerklärung</h1>
-    </header>
+  <header>
+    <h1>Datenschutzerklärung</h1>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <h2>Datenschutzerklärung</h2>
-            <p>Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.</p>
-    
-            <h2>1. Zugriffsdaten und Hosting</h2>
-            <p>Sie können unsere Webseiten besuchen, ohne Angaben zu Ihrer Person zu machen. Bei jedem Aufruf einer Webseite speichert der Webserver automatisch ein sogenanntes Server-Logfile, das z. B. den Namen der angeforderten Datei, Ihre IP-Adresse, Datum und Uhrzeit des Abrufs, übertragene Datenmenge und den anfragenden Provider enthält und den Abruf dokumentiert.</p>
-    
-            <h2>2. Datenerhebung und -verwendung zur Vertragsabwicklung</h2>
-            <p>Wir erheben personenbezogene Daten, wenn Sie uns diese im Rahmen einer Kontaktaufnahme mit uns (z. B. per Kontaktformular oder E-Mail) freiwillig mitteilen. Pflichtfelder werden als solche gekennzeichnet, da wir in diesen Fällen die Daten zwingend zur Bearbeitung Ihrer Kontaktaufnahme benötigen.</p>
-    
-            <h2>3. Cookies und Webanalyse(Derzeitig nicht Implementiert/nicht in Verwendung)</h2>
-            <p>Um den Besuch unserer Website attraktiv zu gestalten und die Nutzung bestimmter Funktionen zu ermöglichen, verwenden wir auf verschiedenen Seiten sogenannte Cookies. Wenn Sie der Verwendung von Cookies zustimmen, werden diese auf Ihrem Gerät gespeichert.</p>
-    
-            <h2>4. Änderungen dieser Datenschutzerklärung</h2>
-            <p>Wir behalten uns vor, diese Datenschutzerklärung von Zeit zu Zeit zu aktualisieren, um rechtliche Anforderungen umzusetzen oder Änderungen unserer Dienstleistungen in der Datenschutzerklärung umzusetzen.</p>
+  <main>
+    <div class="container">
+      <h2>Datenschutzerklärung</h2>
+      <p>Wir freuen uns über Ihr Interesse an unserer Website. Der Schutz Ihrer Privatsphäre ist für uns sehr wichtig. Nachstehend informieren wir Sie ausführlich über den Umgang mit Ihren Daten.</p>
 
-            <h2>5. Allgemeine hinweise zu dieser Website</h2>
-            <p>- Diese Seite ist satirischer Natur und rein für private Zwecke gedacht.</p>
-            <p>- Sie steht in keiner Verbindung zu anderen Webseiten oder Organisationen und erfüllt keinen Wirtschaftlichen oder Geschäftlichen Zweck.</p>
-            <p>- Alle Inhalte sind humorvoll gemeint und sollten nicht ernst genommen werden. </p>
-            <p>- Alle Bilder, welche als Hintergrund oder Icons verwendet werden, wurden durch Künstliche Intelligenz erstellt. </p>
-            <p>- Ähnlichkeiten zu bereits Existierenden Websites, Personen oder Projekten, sind rein zufällig.</p>
-        </div>
-    </main>
+      <h2>1. Zugriffsdaten und Hosting</h2>
+      <p>Sie können unsere Webseiten besuchen, ohne Angaben zu Ihrer Person zu machen. Bei jedem Aufruf einer Webseite speichert der Webserver automatisch ein sogenanntes Server-Logfile.</p>
 
-    <!-- Fußzeile für Impressum-->
-    <footer>
-        <p>&copy; 2025 DönerHub.de/Gamedivers.de | <a href="{{ url_for('impressum') }}" style="color: #ccc;">Impressum</a>
-    </footer>
+      <h2>2. Datenerhebung und -verwendung zur Vertragsabwicklung</h2>
+      <p>Wir erheben personenbezogene Daten, wenn Sie uns diese im Rahmen einer Kontaktaufnahme (z. B. per Formular oder E-Mail) freiwillig mitteilen.</p>
 
+      <h2>3. Cookies und Webanalyse</h2>
+      <p>Diese Website setzt derzeit keine Cookies ein. Tracking- und Analyse-Tools sind nicht integriert.</p>
+
+      <h2>4. Änderungen dieser Datenschutzerklärung</h2>
+      <p>Wir behalten uns vor, diese Erklärung gelegentlich zu aktualisieren, z. B. bei rechtlichen Änderungen oder Funktionsanpassungen.</p>
+
+      <h2>5. Allgemeine Hinweise</h2>
+      <ul>
+        <li>Diese Seite ist satirischer Natur und rein für private Zwecke gedacht.</li>
+        <li>Kein wirtschaftlicher oder geschäftlicher Hintergrund.</li>
+        <li>Alle Inhalte sind humorvoll gemeint und nicht ernst zu nehmen.</li>
+        <li>Verwendete Bilder & Icons wurden durch KI generiert.</li>
+        <li>Ähnlichkeiten zu realen Webseiten, Marken oder Personen sind rein zufällig.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 DönerHub.de / Gamedivers.de |
+      <a href="{{ url_for('impressum') }}">Impressum</a>
+    </p>
+  </footer>
 </body>
 </html>
