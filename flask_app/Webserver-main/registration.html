@@ -1,107 +1,151 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrierung</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <style>
-        :root {
-            --primary: #FFD700;
-            --dark: #1c1c1c;
-            --light: #f4f4f4;
-            --medium: #444;
-            --accent: #fff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrierung</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <style>
+    :root {
+      --primary: #FFD700;
+      --dark: #1c1c1c;
+      --medium: #444;
+      --light: #f4f4f4;
+      --accent: #fff;
+    }
 
-        * { box-sizing: border-box; }
-        body {
-            text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e2f;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: rgba(36, 36, 36, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-        h2 {
-            color: #FFD700;
-        }
-        input {
-            width: calc(100% - 24px);
-            padding: 12px;
-            margin-top: 10px;
-            border: 2px solid #FFD700;
-            border-radius: 10px;
-            font-size: 1em;
-            background: #ffffff;
-            color: #242424;
-        }
-        button {
-            margin-top: 20px;
-            padding: 12px;
-            background: #FFD700;
-            color: #242424;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        button:hover {
-            background: #e6c300;
-        }
-        .error-message {
-            color: red;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .success-message {
-            color: green;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        a {
-            color: #FFD700;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: var(--medium);
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      background: var(--light);
+      color: #222;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: var(--primary);
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e6c300;
+      transform: translateY(-2px);
+    }
+
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .success-message {
+      color: limegreen;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      input,
+      button {
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Benutzer registrieren</h2>
-        
-        {% if error %}
-        <p class="error-message">{{ error }}</p>
-        {% endif %}
+  <div class="container">
+    <h2>Benutzer registrieren</h2>
 
-        {% if success %}
-        <p class="success-message">{{ success }}</p>
-        {% endif %}
+    {% if error %}
+      <p class="error-message">{{ error }}</p>
+    {% endif %}
 
-        <form action="{{ url_for('register') }}" method="POST">
-            <input type="text" name="username" placeholder="Benutzername" required>
-            <input type="email" name="email" placeholder="E-Mail (optional)">
-            <input type="password" name="password" placeholder="Passwort" required>
-            <button type="submit">Registrieren</button>
-        </form>
+    {% if success %}
+      <p class="success-message">{{ success }}</p>
+    {% endif %}
 
-        <p><a href="{{ url_for('index') }}">Zurück zur Startseite</a></p>
-    </div>
+    <form action="{{ url_for('register') }}" method="POST">
+      <input type="text" name="username" placeholder="Benutzername" required />
+      <input type="email" name="email" placeholder="E-Mail (optional)" />
+      <input type="password" name="password" placeholder="Passwort" required />
+      <button type="submit">Registrieren</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Zurück zur Startseite</a>
+  </div>
 </body>
 </html>
