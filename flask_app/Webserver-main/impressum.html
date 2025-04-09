@@ -1,145 +1,158 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <style>
-        :root {
-            --primary: #FFD700;
-            --dark: #1c1c1c;
-            --light: #f4f4f4;
-            --medium: #444;
-            --accent: #fff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <style>
+    :root {
+      --primary: #FFD700;
+      --dark: #1c1c1c;
+      --medium: #444;
+      --card-bg: #2c2c3f;
+      --text-light: #fff;
+      --accent: #f4f4f4;
+    }
 
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            background-image: url('images/background-minecraft.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            background-color: var(--dark);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        nav a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        nav a:hover {
-            background-color: var(--medium);
-            padding: 8px 16px;
-            border-radius: 8px;
-        }
-        header {
-            background-color: #FFD700;
-            padding: 20px;
-            margin: 0;
-        }
-        main {
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 2em auto;
-            padding: 1em;
-            background: #000000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-        h1 {
-            color: #000000
-        }
-        h2 {
-            color: #fff;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        p {
-            color: #fff
-        }
-        li{
-            color: #fff
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            background-color: #000000;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-            position: fixed; /* Fixiert den Footer am unteren Bildschirmrand */
-            bottom: 0;
-            width: 100%; /* Lässt den Footer die gesamte Breite einnehmen */
-        }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: var(--dark);
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
 
-    </style>
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: var(--medium);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: var(--dark);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    p, li {
+      color: var(--accent);
+      margin: 0.5rem 0;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: var(--dark);
+      color: #ccc;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: #aaa;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="{{ url_for('welcome') }}">Home</a>
-        <a href="{{ url_for('gamedivers') }}">GameDivers</a>
-        <a href="{{ url_for('helldivers')}}">Helldivers</a>
-        {% if role == "admin" && "editor" %}
-            <a href="{{ url_for('editor') }}">Erstellen</a>
-        {% endif %}
-        <a href="{{ url_for('profile') }}">Profil</a>
-    </nav>
+  <nav>
+    <a href="{{ url_for('welcome') }}">Home</a>
+    <a href="{{ url_for('gamedivers') }}">GameDivers</a>
+    <a href="{{ url_for('helldivers') }}">Helldivers</a>
+    {% if role == "admin" or role == "editor" %}
+      <a href="{{ url_for('editor') }}">Erstellen</a>
+    {% endif %}
+    <a href="{{ url_for('profile') }}">Profil</a>
+  </nav>
 
-    <!-- Header -->
-    <header>
-        <h1>Impressum</h1>
-    </header>
+  <header>
+    <h1>Impressum</h1>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <h2>Angaben gemäß § 5 TMG</h2>
-            <p>
-                DönerHub<br>
-                Straße: n/a<br>
-                Ort: n/a<br>
-            </p>
+  <main>
+    <div class="container">
+      <h2>Angaben gemäß § 5 TMG</h2>
+      <p>DönerHub</p>
+      <p>Straße: n/a</p>
+      <p>Ort: n/a</p>
 
-            <h2>Vertreten durch:</h2>
-            <p>DönerHub Developer</p>
+      <h2>Vertreten durch:</h2>
+      <p>DönerHub Developer</p>
 
-            <h2>Kontakt:</h2>
-            <p>
-                E-Mail: <a href="mailto:info@dönerhub.com">info@dönerhub.com</a>
-            </p>
+      <h2>Kontakt:</h2>
+      <p>E-Mail: <a href="mailto:info@dönerhub.com">info@dönerhub.com</a></p>
+    </div>
+  </main>
 
-        </div>
-    </main>
-
-    <!-- Fußzeile für Impressum-->
-    <footer>
-        <p>&copy; 2025 DönerHub.de/Gamedivers.de | <a href="{{ url_for('datenschutz') }}" style="color: #ccc;">Datenschutz</a>
-        <p>Disclaimer: Diese Seite ist rein für Hobby, Privat oder Satire zwecke. Ähnlichkeiten zu bereits Existierenden Websites, Personen oder Projekten, sind rein zufällig.</p>
-    </footer>
-
+  <footer>
+    <p>&copy; 2025 DönerHub.de / Gamedivers.de |
+      <a href="{{ url_for('datenschutz') }}">Datenschutz</a> |
+      <a href="{{ url_for('impressum') }}">Impressum</a>
+    </p>
+    <p>Disclaimer: Diese Seite ist rein für Hobby-, Privat- oder Satirezwecke. Ähnlichkeiten zu bereits existierenden Websites, Personen oder Projekten sind rein zufällig.</p>
+  </footer>
 </body>
 </html>
