@@ -1,191 +1,250 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>Welcome</title>
-    <style>
-        :root {
-            --primary: #FFD700;
-            --dark: #1c1c1c;
-            --light: #f4f4f4;
-            --medium: #444;
-            --accent: #fff;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Registrierung</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+  <style>
+    :root {
+      --primary: #FFD700;
+      --dark-bg: #1e1e2f;
+      --card-bg: #29293d;
+      --text-light: #f4f4f4;
+      --text-dark: #222;
+      --btn-hover: #e6c300;
+    }
 
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e2f;
-            color: #ffffff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        header {
-            background-color: #FFD700;
-            padding: 40px 20px;
-            text-align: center;
-            width: 100%;
-        }
-        header h1 {
-            margin: 0;
-            color: #2C2C2C;
-            font-size: 2.5em;
-        }
-        header p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            color: #2C2C2C;
-        }
-        main {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-        .login-container {
-            background: #242424;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            max-width: 350px;
-            width: 90%;
-            text-align: center;
-        }
-        .login-container h2 {
-            margin-bottom: 15px;
-            color: #FFD700;
-            font-size: 1.5em;
-        }
-        .login-container label {
-            display: block;
-            text-align: left;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #ffffff;
-        }
-        .input-container {
-            position: relative;
-            width: 100%;
-            display: flex;
-            align-items: center;
-        }
-        .input-container input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid var(--primary);
-            border-radius: 8px;
-            font-size: 1em;
-            background: var(--light);
-            color: var(--dark);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .input-container i {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #FFD700;
-        }
-        .login-container button {
-            margin-top: 15px;
-            padding: 12px;
-            background: #FFD700;
-            color: #242424;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        .login-container button:hover {
-            background: #e6c300;
-        }
-        .register-link p {
-            margin-top: 15px;
-            font-size: 0.9em;
-        }
-        .register-link a {
-            color: #FFD700;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-        .error-message {
-            color: red;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
-        }
-        footer {
-            background-color: #000000;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            font-size: 0.9em;
-        }
-    </style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      display: flex;
+      transition: all 1s ease-in-out;
+      color: var(--text-light);
+    }
+
+    .forms-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .signin-signup {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 50%;
+      z-index: 5;
+      transition: all 0.6s ease-in-out;
+    }
+
+    form {
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+    }
+
+    form.sign-up-form {
+      display: none;
+    }
+
+    .container.sign-up-mode .sign-up-form {
+      display: flex;
+    }
+
+    .container.sign-up-mode .sign-in-form {
+      display: none;
+    }
+
+    .title {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .input-field {
+      width: 100%;
+      background-color: var(--text-light);
+      margin: 10px 0;
+      height: 50px;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      color: var(--text-dark);
+    }
+
+    .input-field i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+
+    .input-field input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    .btn {
+      width: 150px;
+      background-color: var(--primary);
+      border: none;
+      outline: none;
+      height: 45px;
+      border-radius: 45px;
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover);
+    }
+
+    .panels-container {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      background: var(--primary);
+      color: var(--text-dark);
+    }
+
+    .panel {
+      text-align: center;
+    }
+
+    .panel img {
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .panel h3 {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .panel p {
+      font-size: 0.95rem;
+    }
+
+    .transparent {
+      background: transparent;
+      border: 2px solid var(--text-dark);
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .signin-signup, .panels-container {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Willkommen auf Gamediver.de</h1>
-        <p>Das Portal für alles rund um unsere Gameserver oder sonstige Community-Themen</p>
-    </header>
-    <main>
-        <div class="login-container">
-            <h2>Login</h2>
-            {% if error %}
-            <p class="error-message">{{ error }}</p>
-            {% endif %}
-            <form action="{{ url_for('login') }}" method="POST">
-                <label for="username">Benutzername:</label>
-                <div class="input-container">
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <label for="password">Passwort:</label>
-                <div class="input-container">
-                    <input type="password" id="password" name="password" required>
-                    <i class="fas fa-eye" id="togglePassword"></i>
-                </div>
-                <button type="submit">Anmelden</button>
-            </form>
-            <div class="register-link">
-                <p>Kein Konto? <a href="{{ url_for('register') }}">Jetzt registrieren</a></p>
-            </div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2025 Dönerhub.de/Gamedivers.de</p>
-        <p>Disclaimer: Diese Seite ist rein für Hobby-, Privat- oder Satire-Zwecke. Ähnlichkeiten zu bereits existierenden Websites, Personen oder Projekten sind rein zufällig.</p>
-    </footer>
-    <script>
-        document.getElementById("togglePassword").addEventListener("click", function() {
-            let passwordInput = document.getElementById("password");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                this.classList.remove("fa-eye");
-                this.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                this.classList.remove("fa-eye-slash");
-                this.classList.add("fa-eye");
-            }
-        });
-    </script>
+  <div class="container" id="main-container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form action="#" class="sign-in-form">
+          <h2 class="title">Sign in</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" required />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" required />
+          </div>
+          <button class="btn">Login</button>
+        </form>
+
+        <form action="#" class="sign-up-form">
+          <h2 class="title">Sign up</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" required />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="email" placeholder="Email" required />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" required />
+          </div>
+          <button class="btn">Sign up</button>
+        </form>
+      </div>
+    </div>
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <img src="https://undraw.co/api/illustrations/0c57ffb5-5c68-49e4-b5fd-0cbaf69428d5" alt="Login Illustration">
+        <h3>Neu hier?</h3>
+        <p>Registriere dich, um auf unsere Plattform zuzugreifen!</p>
+        <button class="btn transparent" id="sign-up-btn">Sign up</button>
+      </div>
+      <div class="panel right-panel">
+        <img src="https://undraw.co/api/illustrations/35f803e6-7b95-4ea2-b9ee-e17aab64f86b" alt="Register Illustration">
+        <h3>Schon Mitglied?</h3>
+        <p>Melde dich an und starte direkt durch!</p>
+        <button class="btn transparent" id="sign-in-btn">Sign in</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const signInBtn = document.getElementById("sign-in-btn");
+    const signUpBtn = document.getElementById("sign-up-btn");
+    const container = document.getElementById("main-container");
+
+    signUpBtn.addEventListener("click", () => {
+      container.classList.add("sign-up-mode");
+    });
+
+    signInBtn.addEventListener("click", () => {
+      container.classList.remove("sign-up-mode");
+    });
+  </script>
 </body>
 </html>
