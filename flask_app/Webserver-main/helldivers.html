@@ -14,8 +14,13 @@
             --accent: #fff;
         }
 
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             font-family: 'Inter', sans-serif;
             background-color: var(--medium);
             color: var(--accent);
@@ -25,118 +30,105 @@
             background-repeat: no-repeat;
         }
 
-        /* Nav */
         nav {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             background-color: var(--dark);
-            padding: 15px 20px;
+            padding: 16px 30px;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
         }
 
         nav a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
             transition: all 0.3s ease;
         }
 
         nav a:hover {
             background-color: var(--medium);
-            padding: 8px 16px;
-            border-radius: 8px;
         }
 
-        /* Header */
         header {
             background-color: var(--primary);
-            padding: 2.5rem 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 3rem 1.5rem;
             text-align: center;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+            border-radius: 0 0 20px 20px;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--dark);
         }
 
         header h2 {
-            margin-top: 0.5rem;
+            font-size: 1.5rem;
             color: var(--dark);
-            font-size: 1.4rem;
-            font-weight: 500;
+            margin-top: 0.5rem;
         }
 
-        /* Content */
         main {
-            padding: 30px;
+            padding: 40px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .box {
             background-color: var(--dark);
-            color: var(--accent);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             animation: fadeInUp 0.5s ease-out;
         }
 
         .box h2 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .box p {
-            font-size: 1.1rem;
+            font-size: 2.2rem;
             color: var(--primary);
             margin-bottom: 1.2rem;
             text-align: center;
         }
 
-        .content-text {
-            font-size: 1.1rem;
-            color: var(--dark);
-            text-align: left;
+        .box p {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
-        /* Article in Box */
         article {
-            background-color: #fff;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            color: #333;
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            color: #222;
         }
 
         iframe {
             width: 100%;
-            height: 400px;
+            height: 450px;
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            margin-top: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+            margin-top: 1.5rem;
         }
 
-        /* CTA Buttons */
         .cta {
             display: inline-block;
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.9rem 1.7rem;
             background-color: var(--primary);
             color: var(--dark);
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 700;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             transition: background-color 0.3s ease;
         }
 
@@ -144,14 +136,13 @@
             background-color: #ffb700;
         }
 
-        /* Footer */
         footer {
             background-color: var(--dark);
             color: #ccc;
             text-align: center;
             padding: 2rem 1rem;
-            margin-top: 40px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            border-radius: 20px 20px 0 0;
         }
 
         footer a {
@@ -159,26 +150,16 @@
             text-decoration: underline;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-        .box {
-            padding: 1.5rem;
-        }
-
-        header h1 {
-            font-size: 2rem;
-        }
-
-        header h2 {
-            font-size: 1.1rem;
-        }
-
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            header h2 { font-size: 1rem; }
+            .box { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -200,24 +181,21 @@
         <section class="box">
             <h2>General Order</h2>
             <p>Alle Infos zu den aktuellen Ordern</p>
-            <article>
-                <content-text>Derzeitig keine aktuellen Inhalte verfügbar</content-text>
-            </article>
+            <article>Derzeitig keine aktuellen Inhalte verfügbar</article>
         </section>
+
         <section class="box">
             <h2>Events</h2>
             <p>Live-Events und Specials</p>
-            <article>
-                <content-text>Derzeitig keine aktuellen Inhalte verfügbar</content-text>
-            </article>
+            <article>Derzeitig keine aktuellen Inhalte verfügbar</article>
         </section>
+
         <section class="box">
             <h2>Updates und Patches</h2>
             <p>Alle News zu Neuerungen, QoL und geplanten Veröffentlichungen</p>
-            <article>
-                <content-text>Derzeitig keine aktuellen Inhalte verfügbar</content-text>
-            </article>
+            <article>Derzeitig keine aktuellen Inhalte verfügbar</article>
         </section>
+
         <section class="box">
             <h2>Details zum Spiel</h2>
             <iframe src="https://steamdb.info/embed/?appid=553850" loading="lazy"></iframe>
